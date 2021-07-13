@@ -27,6 +27,11 @@ struct ContentView: View {
    @State var purposes = [
       Query(
          id: """
+         | where Amount < 0
+         """,
+         label: "OUT"),
+      Query(
+         id: """
          | where Amount < 0 | where Category!="Credit Card Payment"
          """,
          label: "Spending"),
@@ -40,6 +45,14 @@ struct ContentView: View {
          OR Route="Ru Discover Saving"
          """,
          label: "Cashflow"),
+      Query(
+         id: """
+         | where Amount < 0 \
+         | eval Category = case(Category="Bills", "(3) bills", Category="Groceries", "(2) groceries", Category="Food & Drink", "(1) food & drink") \
+         | where !isNull(Category)
+         """,
+         label: "COL"
+      )
    ]
 
    @State var selectedPurposes = Set<String>()
@@ -60,6 +73,11 @@ struct ContentView: View {
          | where Cycle="$cycle$"
          """,
          label: "in [cycle]"),
+      Query(
+         id: """
+         | where like(Cycle, "$year$%")
+         """,
+         label: "in [year]"),
    ]
 
    @State var selectedFilters = Set<String>()
@@ -103,9 +121,19 @@ struct ContentView: View {
          label: "by Category"),
       Query(
          id: """
+         | chart sum(AbsAmount) as SubTotal by Cycle, Category | sort Cycle
+         """,
+         label: "by Cycle by Category"),
+      Query(
+         id: """
          | table FDate Amount, Description, Category, Route, Memo, Cycle | sort FDate
          """,
          label: nil),
+      Query(
+         id: """
+         | stats sum(AbsAmount)
+         """,
+         label: "Total"),
    ]
 
    @State var selectedPresentations = Set<String>()
