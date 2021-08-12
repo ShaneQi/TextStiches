@@ -37,6 +37,11 @@ struct ContentView: View {
          label: "Spending"),
       Query(
          id: """
+         | where Amount < 0 | where Category!="Credit Card Payment" AND Category!="Investment" AND Category!="Bills" AND Category!="Groceries" AND Category!="Food & Drink" AND Category!="Mortgage"
+         """,
+         label: "Flex Spending"),
+      Query(
+         id: """
          | where Route="Chase Checking" \
          OR Route="Chase Saving" \
          OR Route="Marcus" \
