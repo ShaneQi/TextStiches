@@ -37,7 +37,7 @@ struct ContentView: View {
          label: "Spending"),
       Query(
          id: """
-         | where Amount < 0 | where Category!="Credit Card Payment" AND Category!="Investment" AND Category!="Bills" AND Category!="Groceries" AND Category!="Food & Drink" AND Category!="Mortgage"
+         | where Amount < 0 | where Category!="Credit Card Payment" AND Category!="Investment" AND Category!="Bills" AND Category!="Groceries" AND Category!="Food & Drink" AND Category!="Mortgage" AND Category!="Car Loan"
          """,
          label: "Flex Spending"),
       Query(
